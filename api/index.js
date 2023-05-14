@@ -9,4 +9,6 @@ app.use(cors());
 
 app.use("/", userRoutes);
 
+console.log("api executando http://localhost:8800");
+
 app.listen(8800);
