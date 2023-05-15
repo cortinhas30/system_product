@@ -1,8 +1,9 @@
 import  GlobalStyle  from "./styles/global";
 import Styled, { styled } from "styled-components";
-import Form from "./components/Form.js";
+import Home from "./components/Home.js";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -17,11 +18,13 @@ const Container = styled.div`
 const Title = styled.h2``;
 
 function App() {
+  
+
   return (
     <>
     <Container>
       <Title>PRODUTOS</Title>
-      <Form />
+      <Home />
     </Container>
       <ToastContainer autoClose={300} position={toast.POSITION.BOTTOM_LEFT} />
       <GlobalStyle /> 
