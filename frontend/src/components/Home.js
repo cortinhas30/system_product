@@ -1,9 +1,8 @@
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GetProducts from './GetProducts';
 
 const PageContainer = styled.div`
   background-color: #f8f8f8;
@@ -30,7 +29,6 @@ const Button = styled.button`
   padding: 10px 20px;
   border-radius: 5px;
   margin-top: 20px;
-  cursor: pointer;
 `;
 
 const TableContainer = styled.div`
@@ -43,6 +41,18 @@ const TableContainer = styled.div`
 const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
+`;
+
+const ButtonValidar = styled.button`
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #2c73d2;
+    color: white;
+    height: 52px;
+    width: 100px;
+    margin-top: 20px;
 `;
 
 const Th = styled.th`
@@ -61,10 +71,6 @@ function Home() {
     const [csvData, setCsvData] = useState([]);
     const [fileName, setFileName] = useState('');
 
-    const [products, setproducts] = useState([]);
-
-    //console.log("dados do servidor: ", products);
-
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -77,30 +83,15 @@ function Home() {
         reader.readAsText(file);
     };
 
-    const productCode = csvData.slice(1).map((row) =>(row.map((column, index) => index === 0 ? column : null)));
-    console.log("codigo do produto", productCode);
+   const productCode = csvData.slice(1).map((row) => (row.map((column, index) => index === 0 ? column : '')));
 
-    const getProducts = async (productCode) =>{
-        try{
-            const res = await axios.get(`http://localhost:8800?code=${productCode}`);
-            setproducts(res.data);
-            console.log("resposta: ",productCode);
-        } catch(error) {
-            toast.error(error);
-            console.error(error);
-        }
-      };
-
-    
-      useEffect(() => {
-        getProducts(productCode);
-      }, [setproducts]); 
-
-      //getProducts(productCode);
-
-      console.log("produto do bd:", products );
+    if(productCode!==undefined) {
+        console.log("codigo do produto: ", productCode);
+        GetProducts(productCode);
+    }
 
     return (
+        <>
         <PageContainer>
             <InputContainer>
                 {fileName && <p>{fileName}</p>}
@@ -122,7 +113,7 @@ function Home() {
                             {csvData.slice(1).map((row, index) => (
                                 <tr key={index}>
                                     {row.map((column, index) => (
-                                        <Td key={index}>{column} {console.log(column,index)}</Td> 
+                                        <Td key={index}>{column} {console.log(column, index)}</Td>
                                     ))}
                                 </tr>
                             ))}
@@ -130,7 +121,9 @@ function Home() {
                     </Table>
                 </TableContainer>
             )}
+            <ButtonValidar>VALIDAR</ButtonValidar>
         </PageContainer>
+        </>
     );
 }
 

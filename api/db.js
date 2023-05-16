@@ -4,7 +4,7 @@ dotenv.config()
 
 export const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: "stock",
+    database: process.env.DB_LOCAL,
 });
